@@ -8,15 +8,20 @@ function Auth() {
   const location = useLocation()
   const isLoginPath = location.pathname === LOGIN_ROUTE
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
 
-  const {isAuth, setAuth} = useAuthStore()
+  const {isAuth, login, isLoading} = useAuthStore()
 
 
-  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setAuth(true)
+    await login(email, password)
+    // console.log(process.env.REACT_APP_API_URL)
+  }
+
+  if(isLoading) {
+    return <h3>загрузка...</h3>
   }
   
   return (

@@ -1,22 +1,52 @@
-import { create } from "zustand";
+import axios from "axios"
+import { create } from "zustand"
 import { immer } from 'zustand/middleware/immer'
-import { IUser } from "../models/IUser";
+import { AuthResponse } from "../models/AuthResponse"
+import { IUser } from "../models/IUser"
+import AuthService from "../services/AuthService"
 
 interface AuthState {
-  isAuth: Boolean
+  isAuth: boolean
+  isLoading: boolean
   user: IUser
-  setAuth: (payload: Boolean) => void
+  setAuth: (payload: boolean) => void
+  login: (email: string, password: string) => void
+  checkAuth: () => void
 }
 
 export const useAuthStore = create<AuthState>()(immer((set) => ({
   user: {
-    id: 0,
-    email: 'guest',
+    id: '',
+    email: '',
     isActivated: false
   },
   isAuth: false,
-  setAuth: (payload: Boolean) => set(state => {
+  isLoading: false,
+  setAuth: (payload: boolean) => set(state => {
     state.isAuth = payload
-  })
-
+  }),
+  login: async (email: string, password: string) => {
+    try {
+      const response = await AuthService.login(email, password)
+      localStorage.setItem('accessToken', response.data.accessToken)
+      set({isAuth: true})
+      set({user: response.data.user})
+    } catch(e: any) {
+      console.log(e.response?.data?.message)
+    }
+  },
+  checkAuth: async () => {
+    set({isLoading: true})
+    try {
+      const response = await axios.get<AuthResponse>(`${process.env.REACT_APP_API_URL}/auth/refresh`,
+        {withCredentials: true})
+      localStorage.setItem('accessToken', response.data.accessToken)
+      set({isAuth: true})
+      set({user: response.data.user})
+    } catch(e: any) {
+      console.log(e.response?.data?.message)
+    } finally {
+      set({isLoading: false})
+    }
+  }
 })))
