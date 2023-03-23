@@ -21,7 +21,7 @@ function Auth() {
   
   return (
     <form onSubmit={submitHandler}>
-      {isAuth ? 'TRUE' : 'FALSE'}
+      <h1>{isAuth ? 'TRUE' : 'FALSE'}</h1>
       <input type="text" value={email} onChange={e => setEmail(e.currentTarget.value)} />
       <br />
       <input type="password" value={password} onChange={e => setPassword(e.currentTarget.value)} />
