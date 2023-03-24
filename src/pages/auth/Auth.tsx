@@ -13,11 +13,9 @@ function Auth() {
 
   const {isAuth, login, isLoading} = useAuthStore()
 
-
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     await login(email, password)
-    // console.log(process.env.REACT_APP_API_URL)
   }
 
   if(isLoading) {
@@ -25,14 +23,19 @@ function Auth() {
   }
   
   return (
-    <form onSubmit={submitHandler}>
-      <h1>{isAuth ? 'TRUE' : 'FALSE'}</h1>
-      <input type="text" value={email} onChange={e => setEmail(e.currentTarget.value)} />
-      <br />
-      <input type="password" value={password} onChange={e => setPassword(e.currentTarget.value)} />
-      <br />
-      <input type="submit" value="submit" />
-    </form>
+    <div className='flex h-screen justify-center items-center'>
+      <form onSubmit={submitHandler}>
+        <h1>{isAuth ? 'TRUE' : 'FALSE'}</h1>
+        <h1>{isLoginPath ? 'Login' : 'Register'}</h1>
+        <input className='p-3 rounded-md mb-2 border-[1px]'
+          type="text" value={email} onChange={e => setEmail(e.currentTarget.value)} />
+        <br />
+        <input className='p-3 rounded-md mb-2 border-[1px]'
+          type="password" value={password} onChange={e => setPassword(e.currentTarget.value)} />
+        <br />
+        <input className='p-3 rounded-md mb-2 cursor-pointer border-[1px] border-black' type="submit" value="submit" />
+      </form>
+    </div>
   )
 }
 
