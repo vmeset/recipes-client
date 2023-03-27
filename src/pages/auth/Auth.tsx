@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
+import { NavLink } from 'react-router-dom';
 import { useLocation } from 'react-router-dom'
 import { useAuthStore } from '../../store/authStore';
-import { LOGIN_ROUTE } from '../../utils/consts';
+import { LOGIN_ROUTE, REG_ROUTE } from '../../utils/consts';
 
 function Auth() {
 
@@ -23,10 +24,8 @@ function Auth() {
   }
   
   return (
-    <div className='flex h-screen justify-center items-center'>
+    <div className='flex flex-col h-screen justify-center items-center'>
       <form onSubmit={submitHandler}>
-        <h1>{isAuth ? 'TRUE' : 'FALSE'}</h1>
-        <h1>{isLoginPath ? 'Login' : 'Register'}</h1>
         <input className='p-3 rounded-md mb-2 border-[1px]'
           type="text" value={email} onChange={e => setEmail(e.currentTarget.value)} />
         <br />
@@ -35,6 +34,18 @@ function Auth() {
         <br />
         <input className='p-3 rounded-md mb-2 cursor-pointer border-[1px] border-black' type="submit" value="submit" />
       </form>
+      <p>
+        {isLoginPath 
+          ? 
+            <NavLink to={REG_ROUTE}>
+              {"Don't have an account? Sign Up"}
+            </NavLink>
+          :
+            <NavLink to={LOGIN_ROUTE}>
+              {"Don't have an account? Sign Up"}
+            </NavLink>
+          }
+      </p>
     </div>
   )
 }
