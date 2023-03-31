@@ -50,3 +50,21 @@ export const useAuthStore = create<AuthState>()(immer((set) => ({
     }
   }
 })))
+
+
+
+class Rect {
+  width
+  private height
+
+  constructor(w: number, h: number) {
+    this.width = w
+    this.height = h
+  }
+
+}
+
+const rect = new Rect(10, 20)
+
+rect.width = 33
+

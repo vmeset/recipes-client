@@ -25,25 +25,42 @@ function Auth() {
   
   return (
     <div className='flex flex-col h-screen justify-center items-center'>
-      <form onSubmit={submitHandler}>
-        <input className='p-3 rounded-md mb-2 border-[1px]'
+      <h2 className='font-bold text-2xl mb-2'>
+        {isLoginPath ? 'Авторизация' : 'Регистрация'}
+      </h2>
+      <form onSubmit={submitHandler} className='flex flex-col'>
+        <input className='p-3 rounded-md mb-2 border-[1px] w-96'
+          placeholder='Email'
           type="text" value={email} onChange={e => setEmail(e.currentTarget.value)} />
-        <br />
-        <input className='p-3 rounded-md mb-2 border-[1px]'
+        <input className='p-3 rounded-md mb-2 border-[1px] w-96'
+          placeholder='Пароль'
           type="password" value={password} onChange={e => setPassword(e.currentTarget.value)} />
-        <br />
-        <input className='p-3 rounded-md mb-2 cursor-pointer border-[1px] border-black' type="submit" value="submit" />
+        {!isLoginPath &&
+          <input className='p-3 rounded-md mb-2 border-[1px] w-96'
+            placeholder='Подтвердите пароль'
+            type="password" value={password} onChange={e => setPassword(e.currentTarget.value)} />
+        }
+        <input className='p-3 rounded-md mb-2 cursor-pointer border-[1px] border-black w-96 hover:bg-cyan-400'
+          type="submit" value={isLoginPath ? 'Войти' : 'Зарегистрироваться'} />
       </form>
       <p>
         {isLoginPath 
           ? 
-            <NavLink to={REG_ROUTE}>
-              {"Don't have an account? Sign Up"}
-            </NavLink>
+            <>
+              Нет аккаунта?
+              <NavLink to={REG_ROUTE}>
+                <span className='underline ml-1 text-cyan-400'>Зарегистрируйся!</span>
+                {/* {" Зарегистрируйся!"} */}
+              </NavLink>
+            </>
           :
-            <NavLink to={LOGIN_ROUTE}>
-              {"Don't have an account? Sign Up"}
-            </NavLink>
+            <>
+              Есть аккаунт?
+              <NavLink to={LOGIN_ROUTE}>
+                <span className='underline ml-1 text-cyan-400'>Авторизируйся!</span>
+                {/* {" Авторизируйся!"} */}
+              </NavLink>
+            </>
           }
       </p>
     </div>
